@@ -1,0 +1,32 @@
+RÁDIO PRIMITIVA CRISTÃ — BETA WEB/PWA
+
+ARQUIVOS
+- index.html: aplicativo público trilíngue (português, espanhol e inglês).
+- painel-admin.html: painel administrativo separado; requer usuário autenticado e cadastrado em radio_admins.
+- manifest.webmanifest, sw.js e icon.svg: suporte básico a instalação PWA.
+
+TESTE LOCAL
+1. Descompacte o ZIP.
+2. Abra um terminal na pasta e execute: python3 -m http.server 8000
+3. No navegador, abra http://localhost:8000/
+4. Para o painel: http://localhost:8000/painel-admin.html
+
+INSTALAÇÃO PWA
+A instalação completa exige publicação em HTTPS (ou localhost durante testes). Abrir o HTML por duplo clique (file://) não ativa o service worker nem a instalação PWA.
+
+INTEGRAÇÕES
+O aplicativo usa o projeto Supabase existente: https://jdfbaqouvvovomhrhpho.supabase.co
+A chave incluída é a chave pública anon/publishable, própria para uso no cliente e subordinada às políticas RLS. Nunca coloque uma service_role key no navegador.
+
+LIMITAÇÕES REAIS DESTA BETA
+- O player não toca áudio até configurar uma URL pública real de streaming Icecast/HLS compatível.
+- O painel só funciona depois que uma conta é criada no Supabase Auth e seu UUID é incluído com segurança em public.radio_admins.
+- Não há chamada de voz/WebRTC implementada: o formulário apenas registra solicitação de participação.
+- Pedidos de oração são armazenados como texto; gravação/envio de áudio ainda não está implementada.
+- A conexão com Supabase depende de internet e de políticas RLS corretas.
+- Antes de abrir ao público, revisar os alertas GraphQL de exposição do schema e políticas permissivas; RLS está habilitado nas quatro tabelas, mas isso sozinho não elimina todo risco de exposição.
+
+ESTADO VERIFICADO EM 31/10/2026
+Quatro tabelas públicas existem com RLS habilitado: chat_messages, prayer_requests, radio_admins e live_participation_requests. Foi observado 1 registro em prayer_requests durante a inspeção; o pacote não o altera nem o exibe. Os demais contadores estavam zerados.
+
+Este pacote é uma versão beta para testes, não uma publicação pública nem uma certificação de segurança.
